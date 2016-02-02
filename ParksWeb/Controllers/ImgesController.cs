@@ -16,14 +16,18 @@ namespace ParksWeb.Controllers
 {
     public class ImagesController : Controller
     {
-        public ActionResult Post(int parkId, string description)
+        public ActionResult Post(int parkId, string description, string filename)
         {
-            var parkImage = new ParkImage() { ParkId = parkId, Description = description };
+            var parkImage = new ParkImage()
+            {
+                ParkId = parkId, Description = description, Filename = filename
+            
+            };
 
             var videoFile = Request.Files[0];
 
             SaveImage(videoFile.InputStream, parkImage);
-            return Json(true);
+            return Json(parkImage);
         }
 
         private void SaveImage(Stream stream, ParkImage image)
@@ -36,12 +40,13 @@ namespace ParksWeb.Controllers
 
             container.CreateIfNotExists(BlobContainerPublicAccessType.Blob);
 
-            //var blockBlob = container.GetBlockBlobReference(image.Filename);
-            var blockBlob = container.GetBlockBlobReference("aaaa.mp4");
+            var blockBlob = container.GetBlockBlobReference(image.Filename);
+            //var blockBlob = container.GetBlockBlobReference("aaaa.mp4");
             blockBlob.Metadata["ParkId"] = image.ParkId.ToString();
             blockBlob.Metadata["Description"] = image.Description;
             blockBlob.UploadFromStream(stream);
             image.ImageUri = blockBlob.Uri.ToString();
+            image.ContentType = blockBlob.Properties.ContentType;
         }
     }
 }

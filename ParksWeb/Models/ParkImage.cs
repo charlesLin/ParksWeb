@@ -14,6 +14,6 @@ namespace ParksWeb.Models
         public string Description { get; set; }
 
         public string ImageUri { get; set; }
-
+        public string ContentType { get; set; }
     }
 }
