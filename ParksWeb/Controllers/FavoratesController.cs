@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
+using ParksWeb.Providers;
 
 namespace ParksWeb.Controllers
 {
@@ -32,6 +34,10 @@ namespace ParksWeb.Controllers
             var ints = favorates.Select(x => x._id);
             blockBlob.Metadata["Favorates"] = JsonConvert.SerializeObject(ints);
             blockBlob.UploadFromStream(stream);
+
+            Thread.Sleep(5000);
+            var service = new NotificationService();
+            service.SendNotification(NotificationsController.DeviceIds, "已收到訂單!");
         }
 
         private static CloudBlobContainer GetContainer()
