@@ -1,0 +1,21 @@
+﻿
+@model List<string>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table>
+    @foreach (var deviceId in Model)
+    {
+        <tr>
+            <td> @deviceId</td>
+        </tr>
+    }
+</table>
+@using (Html.BeginForm("SendMessage", "Notifications"))
+{
+    <input type="text" name="message"/>
+    <input type="submit" value="送出訊息"/>
+}
