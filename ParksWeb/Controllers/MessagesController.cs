@@ -40,7 +40,7 @@ namespace ParksWeb.Controllers
             tRequest.ContentType = " application/x-www-form-urlencoded;charset=UTF-8";
             tRequest.Headers.Add(string.Format("Authorization: key={0}", GoogleAppID));
             tRequest.Headers.Add(string.Format("Sender: id={0}", SENDER_ID));
-            string postData = "collapse_key=score_update&time_to_live=108&delay_while_idle=1&data.message=" 
+            string postData = "collapse_key=score_update&time_to_live=108&delay_while_idle=1&data.contentTitle=Hello&data.message=" 
                 + value + "&data.time=" + System.DateTime.Now.ToString() + "&registration_id=" + deviceId + "";
 
             Byte[] byteArray = Encoding.UTF8.GetBytes(postData);
